@@ -5,8 +5,8 @@ import LangSetting from '@/app/ui/dashboard/setting/langSetting';
 import ThemSetting from '@/app/ui/dashboard/setting/themSetting';
 import NotifSetting from '@/app/ui/dashboard/setting/notifSetting';
 import CurrenSetting from '@/app/ui/dashboard/setting/currenSetting';
-import TimeZoneSetting from '@/app/ui/dashboard/setting/TimeZoneSetting';
-import { Metadata } from 'next';
+import TimeZoneSetting from '@/app/ui/dashboard/setting/timeZoneSetting';
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 
 export const metaData: Metadata = {

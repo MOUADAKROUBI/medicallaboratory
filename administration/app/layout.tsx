@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
  
 export const metadata: Metadata = {
   title: {
-    template: '%s | tableau de borde',
+    template: "%s | nome de l'aboratoire",
     default: 'tableau de borde',
   },
   description: 'The official Next.js Course Dashboard, built with App Router.',
