@@ -2,24 +2,17 @@ import { Button } from "@/app/ui/button";
 import { Input } from "@/app/ui/input";
 import { Label } from "@/app/ui/label";
 import { RichTextEditor } from "../../rich-text-editor";
-
-interface ServiceFormProps {
-  formData: {
-    nom_service: string;
-    description: string;
-    prix: string;
-    image: File | null;
-  };
-  setFormData: (data: any) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  isEditing?: boolean;
-}
+import { ServiceFormProps } from "@/app/lib/definitions";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export function ServiceForm({
   formData,
   setFormData,
   onSubmit,
   isEditing = false,
+  isLoading,
+  isSuccess,
+  errorMessage
 }: Readonly<ServiceFormProps>) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -65,9 +58,18 @@ export function ServiceForm({
           }
         />
       </div>
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full" disabled={isLoading}>
         {isEditing ? "Mettre à jour" : "Créer"} Service
       </Button>
+      <div className="flex h-8 items-end space-x-1 text-center">
+        {/* Add form errors here */}
+        {(errorMessage || isSuccess) && (
+          <>
+            <ExclamationCircleIcon className={`h-5 w-5 ${errorMessage? 'text-red-500' : 'text-green-500'}`} />
+            <p className={`text-sm ${errorMessage? 'text-red-500' : 'text-green-500'}`}>{errorMessage ?? `Le service a été ${isEditing ? "modifier":"ajouté"} avec succès`}</p>
+          </>
+        )}
+      </div>
     </form>
   );
 }

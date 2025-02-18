@@ -15,14 +15,18 @@ import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
-export const uploadImage = async (file: File) => {
+export const uploadImage = async (file: File, setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>) => {
   const fileExt = file.name.split(".").pop();
-  const fileName = `${Math.random()}.${fileExt}`;
+  const fileName = `${Date.now()}.${fileExt}`;
   const { error: uploadError } = await supabase.storage
     .from("services")
-    .upload(fileName, file);
+    .upload(fileName, file, {
+      contentType: "image/*"
+    });
 
-  if (uploadError) throw uploadError;
+  if (uploadError) {
+    setErrorMessage(uploadError.message);
+  } 
 
   const {
     data: { publicUrl },
@@ -39,6 +43,9 @@ export default function AddNewContent() {
     prix: "",
     image: null as File | null,
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const resetForm = () => {
     setFormData({
@@ -52,24 +59,33 @@ export default function AddNewContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let imageUrl = null;
-    if (formData.image) {
-      imageUrl = await uploadImage(formData.image);
+    setErrorMessage(null)
+    setLoading(true)
+    try {
+      let imageUrl: string | null = null;
+      if (formData.image) {
+        imageUrl = await uploadImage(formData.image, setErrorMessage);
+      }
+  
+      const { error } = await supabase.from("services").insert([
+        {
+          nom_service: formData.nom_service,
+          description: formData.description,
+          prix: parseFloat(formData.prix),
+          image: imageUrl,
+        },
+      ]);
+  
+      if (error) throw setErrorMessage(error.message);
+  
+      setSuccess(true);
+      resetForm();
+
+    } catch (error) {
+      throw error
+    } finally {
+      setLoading(false)
     }
-
-    const { error } = await supabase.from("services").insert([
-      {
-        nom_service: formData.nom_service,
-        description: formData.description,
-        prix: parseFloat(formData.prix),
-        image: imageUrl,
-      },
-    ]);
-
-    if (error) throw error;
-
-    setIsOpen(false);
-    resetForm();
   };
 
   return (
@@ -82,17 +98,20 @@ export default function AddNewContent() {
     >
       <DialogTrigger asChild className="flex justify-end">
         <Button onClick={() => setIsOpen(true)}>
-          <PlusIcon className="mr-2 h-4 w-4" /> Add Service
+          <PlusIcon className="mr-2 h-4 w-4" /> Ajouter un service
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Service</DialogTitle>
+          <DialogTitle>Ajouter un nouveau service</DialogTitle>
         </DialogHeader>
         <ServiceForm
           formData={formData}
           setFormData={setFormData}
           onSubmit={handleSubmit}
+          isLoading={loading}
+          isSuccess={success}
+          errorMessage={errorMessage}
         />
       </DialogContent>
     </Dialog>

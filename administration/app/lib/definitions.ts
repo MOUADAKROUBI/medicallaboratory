@@ -1,12 +1,3 @@
-export type User = {
-  address: string | null;
-  email: string;
-  id: string;
-  nom: string | null;
-  password: string;
-  telephone: number | null;
-};
-
 export enum TypeCard {
   TOTALAPPOINTEMT = 'totalAppointemt',
   APPOINTMENTATT = 'appointmentAtt',
@@ -55,7 +46,7 @@ export interface TestResult {
   telecharger_date: string | null;
   patient: {
     code: string;
-    utilisateur: {
+    profile: {
       nom: string;
     };
   };
@@ -65,16 +56,32 @@ export interface TestResult {
 }
 
 export interface Patient {
+  address: string | null;
+  adomicile: boolean;
   code: string;
   id: string;
-  utilisateur_id: string | null;
-  utilisateur: {
-      address: string | null;
-      email: string;
-      id: string;
-      nom: string | null;
-      telephone: number | null;
-  } | null;
+  utilisateur_id: string;
+  profile: {
+    email: string | null;
+    id: string;
+    nom: string | null;
+    telephone: string | null;
+  };
+}
+
+export interface ServiceFormProps {
+  formData: {
+    nom_service: string;
+    description: string;
+    prix: string;
+    image: File | null;
+  };
+  setFormData: (data: any) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  isEditing?: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  errorMessage?: string | null;
 }
 
 export interface SiteSettings {

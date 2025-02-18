@@ -7,6 +7,7 @@ import { TableSkeleton } from "@/app/ui/skeletons";
 import TeamTable from "@/app/ui/dashboard/users/teamTable";
 import { Metadata } from "next";
 import PatientTable from "@/app/ui/dashboard/users/patientTable";
+import { Table, TableHead, TableHeader, TableRow } from "@/app/ui/table";
 
 export const metadata: Metadata = {
   title: "gestion des utilisateur",
@@ -24,27 +25,57 @@ export default function Page() {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-2">
                     <UsersIcon className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Gestion du utilisateur</h2>
+                    <h2 className="text-lg font-semibold">
+                      Gestion du utilisateur
+                    </h2>
                   </div>
                   <AddNewTeam />
                 </div>
 
-                <Suspense fallback={<TableSkeleton />}>
-                  <TeamTable />
-                </Suspense>
+                <div className="relative overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nom</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Téléphone</TableHead>
+                        <TableHead>Rôle</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <Suspense fallback={<TableSkeleton />}>
+                      <TeamTable />
+                    </Suspense>
+                  </Table>
+                </div>
               </div>
 
               <div className="bg-white p-6 rounded-lg border border-gray-200 mt-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-2">
                     <UsersIcon className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Gestion des Patient</h2>
+                    <h2 className="text-lg font-semibold">
+                      Gestion des Patient
+                    </h2>
                   </div>
                 </div>
 
-                <Suspense fallback={<TableSkeleton />}>
-                  <PatientTable />
-                </Suspense>
+                <div className="relative overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Code</TableHead>
+                        <TableHead>Nom</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Téléphone</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <Suspense fallback={<TableSkeleton />}>
+                      <PatientTable />
+                    </Suspense>
+                  </Table>
+                </div>
               </div>
             </main>
           </div>

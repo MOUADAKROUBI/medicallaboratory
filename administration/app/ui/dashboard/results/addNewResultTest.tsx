@@ -37,7 +37,7 @@ export default function AddNewResult() {
         const { data, error } = await supabase.from("patient").select(`
             id,
             code,
-            utilisateur:utilisateur_id (
+            profile:utilisateur_id (
               id,
               nom
             )
@@ -155,7 +155,7 @@ export default function AddNewResult() {
               <SelectContent>
                 {patients?.map((patient) => (
                   <SelectItem key={patient.id} value={patient.id}>
-                    {patient.utilisateur.nom} ({patient.code})
+                    {patient.profile.nom} ({patient.code})
                   </SelectItem>
                 ))}
               </SelectContent>

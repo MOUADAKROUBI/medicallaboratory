@@ -29,8 +29,12 @@ export default function ServiceActions({
     prix: "",
     image: null as File | null,
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleEdit = () => {
+    setErrorMessage(null)
     setEditingService(service);
 
     setFormData({
@@ -55,31 +59,43 @@ export default function ServiceActions({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    let imageUrl = editingService.image;
-      if (formData.image) {
-        imageUrl = await uploadImage(formData.image);
-      }
-
-      const { error } = await supabase
-        .from("services")
-        .update({
-          nom_service: formData.nom_service,
-          description: formData.description,
-          prix: parseFloat(formData.prix),
-          image: imageUrl,
-        })
-        .eq("id", service.id);
-
-      if (error) throw error;
-
-      setIsOpen(false);
-      resetForm();
+    setErrorMessage(null)
+    setLoading(true)
+    try {
+      let imageUrl = editingService.image;
+        if (formData.image) {
+          imageUrl = await uploadImage(formData.image, setErrorMessage);
+        }
+  
+        const { error } = await supabase
+          .from("services")
+          .update({
+            nom_service: formData.nom_service,
+            description: formData.description,
+            prix: parseFloat(formData.prix),
+            image: imageUrl,
+          })
+          .eq("id", service.id);
+  
+        if (error) throw error;
+  
+        setSuccess(true);
+        resetForm();
+    } catch (error) {
+      throw error
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, image: string | null) => {
     if (confirm("Are you sure you want to delete this service?")) {
       const { error } = await supabase.from("services").delete().eq("id", id);
       if (error) throw error;
+      if (image) {
+        const {error: errorStorage} = await supabase.storage.from('services').remove([image])
+        if (errorStorage) throw errorStorage;
+      }
     }
   };
 
@@ -100,6 +116,9 @@ export default function ServiceActions({
             setFormData={setFormData}
             onSubmit={handleSubmit}
             isEditing={!!editingService}
+            isLoading={loading}
+            isSuccess={success}
+            errorMessage={errorMessage}
           />
         </DialogContent>
       </Dialog>
@@ -109,7 +128,7 @@ export default function ServiceActions({
       <Button
         variant="destructive"
         size="sm"
-        onClick={() => handleDelete(service.id)}
+        onClick={() => handleDelete(service.id, service.image)}
       >
         <TrashIcon className="h-4 w-4" />
       </Button>

@@ -12,25 +12,22 @@ export type Database = {
       administration: {
         Row: {
           id: string
-          password: string
-          utilisateur_id: string | null
+          utilisateur_id: string
         }
         Insert: {
           id?: string
-          password: string
-          utilisateur_id?: string | null
+          utilisateur_id: string
         }
         Update: {
           id?: string
-          password?: string
-          utilisateur_id?: string | null
+          utilisateur_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "administration_utilisateur_id_fkey"
+            foreignKeyName: "administration_utilisateur_id_fkey1"
             columns: ["utilisateur_id"]
             isOneToOne: false
-            referencedRelation: "utilisateur"
+            referencedRelation: "profile"
             referencedColumns: ["id"]
           },
         ]
@@ -79,53 +76,105 @@ export type Database = {
       }
       parametres_du_site: {
         Row: {
+          default_currency: string | null
           id: string
           lang: string | null
-          theme: string | null
           notifications: boolean | null
-          default_currency: string | null
-          timezone: string | null
-        }
-        Insert: {
-          id?: string
-          lang?: string | null
           theme: string | null
-          notifications: boolean | null
-          default_currency: string | null
           timezone: string | null
-        }
-        Update: {
-          id?: string
-          lang?: string | null
-          theme: string | null
-          notifications: boolean | null
-          default_currency: string | null
-          timezone: string | null
-        }
-        Relationships: []
-      }
-      patient: {
-        Row: {
-          code: string
-          id: string
           utilisateur_id: string | null
         }
         Insert: {
-          code: string
-          id?: string
           utilisateur_id?: string | null
         }
         Update: {
-          code?: string
-          id?: string
-          utilisateur_id?: string | null
+          default_currency?: string | null
+          lang?: string | null
+          notifications?: boolean | null
+          theme?: string | null
+          timezone?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "patient_utilisateur_id_fkey"
+            foreignKeyName: "parametres_du_site_utilisateur_id_fkey1"
             columns: ["utilisateur_id"]
             isOneToOne: false
-            referencedRelation: "utilisateur"
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient: {
+        Row: {
+          address: string | null
+          adomicile: boolean
+          code: string
+          id: string
+          utilisateur_id: string
+        }
+        Insert: {
+          address?: string | null
+          adomicile?: boolean
+          code: string
+          id?: string
+          utilisateur_id: string
+        }
+        Update: {
+          address?: string | null
+          adomicile?: boolean
+          code?: string
+          id?: string
+          utilisateur_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_utilisateur_id_fkey1"
+            columns: ["utilisateur_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile: {
+        Row: {
+          email: string | null
+          id: string
+          nom: string | null
+          telephone: string | null
+          email_verified: boolean
+        }
+        Insert: {
+          email?: string | null
+          nom?: string | null
+          telephone?: string | null
+        }
+        Update: {
+          email?: string | null
+          nom?: string | null
+          telephone?: string | null
+        }
+        Relationships: []
+      }
+      reception: {
+        Row: {
+          id: string
+          utilisateur_id: string
+        }
+        Insert: {
+          id?: string
+          utilisateur_id: string
+        }
+        Update: {
+          id?: string
+          utilisateur_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reception_utilisateur_id_fkey1"
+            columns: ["utilisateur_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
             referencedColumns: ["id"]
           },
         ]
@@ -208,39 +257,13 @@ export type Database = {
           },
         ]
       }
-      securite: {
-        Row: {
-          id: string
-          password: string
-          utilisateur_id: string | null
-        }
-        Insert: {
-          id?: string
-          password: string
-          utilisateur_id?: string | null
-        }
-        Update: {
-          id?: string
-          password?: string
-          utilisateur_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "securite_utilisateur_id_fkey"
-            columns: ["utilisateur_id"]
-            isOneToOne: false
-            referencedRelation: "utilisateur"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       services: {
         Row: {
           description: string | null
           id: string
           image: string | null
           nom_service: string
-          prix: number | null
+          prix: number
         }
         Insert: {
           description?: string | null
@@ -276,30 +299,6 @@ export type Database = {
           nom_article?: string | null
           quantity?: number | null
           seuil_reapprovisionnement?: number | null
-        }
-        Relationships: []
-      }
-      utilisateur: {
-        Row: {
-          address: string | null
-          email: string
-          id: string
-          nom: string | null
-          telephone: number | null
-        }
-        Insert: {
-          address?: string | null
-          email: string
-          id?: string
-          nom?: string | null
-          telephone?: number | null
-        }
-        Update: {
-          address?: string | null
-          email?: string
-          id?: string
-          nom?: string | null
-          telephone?: number | null
         }
         Relationships: []
       }

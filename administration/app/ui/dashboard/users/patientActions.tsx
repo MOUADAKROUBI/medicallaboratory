@@ -33,9 +33,9 @@ export default function PatientActions({
     patient: Patient
   ) => {
     setFormData({
-      nom: patient?.utilisateur?.nom ?? "",
-      email: patient?.utilisateur?.email ?? "",
-      telephone: patient?.utilisateur?.telephone?.toString() ?? ""
+      nom: patient?.profile?.nom ?? "",
+      email: patient?.profile?.email ?? "",
+      telephone: patient?.profile?.telephone?.toString() ?? ""
     });
     setIsEditOpen(true);
   };
@@ -44,11 +44,11 @@ export default function PatientActions({
     e.preventDefault();
 
     const { data: utilisateurs, error: patientError } = await supabase
-      .from("utilisateur")
+      .from("profile")
       .update({
         nom: formData.nom,
         email: formData.email,
-        telephone: Number(formData.telephone),
+        telephone: formData.telephone,
       })
       .eq("id", patient.utilisateur_id ?? '')
       .select()
@@ -61,7 +61,7 @@ export default function PatientActions({
 
   async function deletepatient(patientId: string | null) {
     const { error } = await supabase
-      .from("utilisateur")
+      .from("profile")
       .delete()
       .eq("id", patientId ?? '');
     if (error) throw error;

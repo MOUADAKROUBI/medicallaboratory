@@ -15,30 +15,40 @@ export default async function ServiceCards() {
 
   return (
     <>
-      {services?.map((service) => (
-        <div
-          key={service.id}
-          className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
-        >
-          {service.image && (
-            <Image
-              src={service.image}
-              alt={service.nom_service}
-              className="w-full h-48 object-cover rounded-md mb-4"
-            />
-          )}
-          <h3 className="font-medium text-gray-900">{service.nom_service}</h3>
+      {services.length ? (
+        services.map((service) => (
           <div
-            className="text-sm text-gray-500 mt-1 prose prose-sm"
-            dangerouslySetInnerHTML={{ __html: service.description ?? "" }}
-          />
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-primary font-medium">{service.prix} DH</span>
-            
-            <ServiceActions service={service} />
+            key={service.id}
+            className="bg-white p-6 rounded-lg shadow border border-gray-100"
+          >
+            {service.image && (
+              <Image
+                src={service.image}
+                alt={service.nom_service}
+                className="w-full h-48 object-cover rounded-md mb-4"
+                width={200}
+                height={200}
+              />
+            )}
+            <h3 className="font-medium text-gray-900">{service.nom_service}</h3>
+            <div
+              className="text-sm text-gray-500 mt-1 prose prose-sm"
+              dangerouslySetInnerHTML={{ __html: service.description ?? "" }}
+            />
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-primary font-medium">
+                {service.prix} DH
+              </span>
+
+              <ServiceActions service={service} />
+            </div>
           </div>
+        ))
+      ) : (
+        <div className="capitalize text-center">
+          aucun service trouvé
         </div>
-      ))}
+      )}
     </>
   );
 }

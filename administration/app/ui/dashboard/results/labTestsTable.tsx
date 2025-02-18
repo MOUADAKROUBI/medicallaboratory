@@ -21,7 +21,7 @@ export const LabTestsTable = async () => {
         *,
         patient:patient_id (
           code,
-          utilisateur:utilisateur_id (
+          profile:utilisateur_id (
             nom
           )
         ),
@@ -53,7 +53,7 @@ export const LabTestsTable = async () => {
           {testResults?.map((result) => (
             <TableRow key={result.id}>
               <TableCell className="font-medium">
-                {result.patient?.utilisateur?.nom ?? "Inconnu"} (
+                {result.patient?.profile?.nom ?? "Inconnu"} (
                 {result.patient?.code})
               </TableCell>
               <TableCell>{result.service?.nom_service}</TableCell>

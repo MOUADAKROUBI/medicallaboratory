@@ -62,23 +62,26 @@ export default function AppointemtsTable() {
           .from("rendez_vous")
           .select(
             `
-                    *,
-                    patient:patient_id (
-                        code,
-                        utilisateur:utilisateur_id (
-                            nom,
-                            email,
-                            telephone
-                        )
-                    ),
-                    service:service_id (
-                        nom_service
-                    )
-                `
+              *,
+              patient:patient_id (
+                code,
+                adomicile,
+                profile:utilisateur_id (
+                  nom,
+                  email,
+                  telephone
+                )
+              ),
+              service:service_id (
+                  nom_service
+              )
+              
+            `
           )
           .order("date_rendez_vous", { ascending: false })
           .limit(5);
         if (error) throw error;
+        
         setAppointments(data);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -181,17 +184,17 @@ export default function AppointemtsTable() {
                 {formatDateToLocal(appointment.date_rendez_vous)}
               </TableCell>
               <TableCell>
-                {appointment.patient?.utilisateur?.nom || "Unknown"}
+                {appointment.patient?.profile?.nom || "Unknown"}
                 <span className="text-gray-500 text-sm ml-1">
                   ({appointment.patient?.code})
                 </span>
               </TableCell>
               <TableCell>
                 <div className="text-sm">
-                  {appointment.patient?.utilisateur?.email}
-                  {appointment.patient?.utilisateur?.telephone && (
+                  {appointment.patient?.profile?.email}
+                  {appointment.patient?.profile?.telephone && (
                     <div className="text-gray-500">
-                      {appointment.patient?.utilisateur?.telephone}
+                      0{appointment.patient?.profile?.telephone}
                     </div>
                   )}
                 </div>

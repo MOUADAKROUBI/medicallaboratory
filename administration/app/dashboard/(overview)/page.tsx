@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { CardSkeleton, DataChartSkeleton, RecentActivityListSkeleton } from "@/app/ui/skeletons";
 import Header from "@/app/ui/header";
 
-export default async function Page() {
+export default function Page() {
   return (
     <main>
       <Header titleSection="Tableau de bord" />

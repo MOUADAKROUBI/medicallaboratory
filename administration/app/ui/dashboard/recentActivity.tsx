@@ -13,7 +13,7 @@ const RecentActivity = async () => {
       date_rendez_vous,
       patient:patient_id (
         code,
-        utilisateur:utilisateur_id (
+        profile:utilisateur_id (
           nom
         )
       )
@@ -30,7 +30,7 @@ const RecentActivity = async () => {
       telecharger_date,
       patient:patient_id (
         code,
-        utilisateur:utilisateur_id (
+        profile:utilisateur_id (
           nom
         )
       )
@@ -45,7 +45,7 @@ const RecentActivity = async () => {
     ...(appointments?.map((app) => ({
       id: `app-${app.id}`,
       title: "Nouveau rendez-vous programmé",
-      description: `Patient: ${app.patient?.utilisateur?.nom ?? "Inconnu"} (${
+      description: `Patient: ${app.patient?.profile.nom ?? "Inconnu"} (${
         app.patient?.code
       })`,
       time: new Date(app.date_rendez_vous).toLocaleDateString(),
@@ -53,7 +53,7 @@ const RecentActivity = async () => {
     ...(testResults?.map((test) => ({
       id: `test-${test.id}`,
       title: "Résultats de test mis à jour",
-      description: `Patient: ${test.patient?.utilisateur?.nom ?? "Inconnu"} (${
+      description: `Patient: ${test.patient?.profile.nom ?? "Inconnu"} (${
         test.patient?.code
       })`,
       time: test.telecharger_date

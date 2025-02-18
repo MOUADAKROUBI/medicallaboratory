@@ -15,11 +15,14 @@ export const metaData: Metadata = {
 
 export default async function Page() {
   const supabase = await createClient();
+  const {data: currentUser, error: userError} = await supabase.auth.getUser()
+  if (userError) throw userError;
 
   // Fetch current settings
   const { data: settings, error } = await supabase
     .from('parametres_du_site')
     .select('*')
+    .eq('utilisateur_id', currentUser?.user?.id ?? '')
     .single();
   
   if (error) throw error;
@@ -33,22 +36,28 @@ export default async function Page() {
             <main className="p-6">
             <div className="mb-6">
               <h1 className="text-2xl font-semibold flex items-center gap-2">
-                <CogIcon className="h-6 w-6 text-primary" />
-                Settings
+              <CogIcon className="h-6 w-6 text-primary" />
+              Paramètres
               </h1>
-              <p className="text-muted-foreground">Manage your application settings</p>
+              <p className="text-muted-foreground">Gérez les paramètres de votre application</p>
             </div>
 
             <div className="grid gap-6">
-              <LangSetting setting={settings} />
-
-              <ThemSetting setting={settings} />
-
-              <NotifSetting setting={settings} />
-
-              <CurrenSetting setting={settings} />
-
-              <TimeZoneSetting setting={settings} />
+              {
+                settings && (
+                  <>
+                    <LangSetting setting={settings} />
+      
+                    <ThemSetting setting={settings} />
+      
+                    <NotifSetting setting={settings} />
+      
+                    <CurrenSetting setting={settings} />
+      
+                    <TimeZoneSetting setting={settings} />
+                  </>
+                )
+              }
             </div>
           </main>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Database } from "@/utils/supabase/types";
 import { createClient } from "@/utils/supabase/client";
@@ -27,31 +27,53 @@ const supabase = createClient();
 export default function TeamActions({
   user,
 }: {
-  readonly user: Database["public"]["Tables"]["utilisateur"]["Row"] & {
+  readonly user: Database["public"]["Tables"]["profile"]["Row"] & {
     role: string;
-    password: string | undefined;
   };
 }) {
   const [isEditOpen, setIsEditOpen] = React.useState(false);
   const [formData, setFormData] = React.useState({
     nom: "",
     email: "",
-    password: "",
     telephone: "",
     role: "",
   });
+  const [userFetched, setUserFetched] = useState<Database["public"]["Tables"]["profile"]["Row"]>({
+    email: "",
+    id: "",
+    nom: "",
+    telephone: NaN,
+    email_verified: false
+  });
+  
+  useEffect( () => {
+    async function getUserByID() {
+      const {data, error} = await supabase.auth.admin.getUserById(user.id);
+      if (error) {
+        throw error;
+      };
+
+      setUserFetched({
+        email: data.user.email ?? null,
+        id: data.user.id,
+        nom: data.user.user_metadata?.nom ?? "",
+        telephone: Number(data.user.phone),
+        email_verified: data.user.user_metadata?.email_verified ?? false,
+      })
+    }
+
+    getUserByID()
+  }, [])
 
   const handleEdit = (
-    user: Database["public"]["Tables"]["utilisateur"]["Row"] & {
+    user: Database["public"]["Tables"]["profile"]["Row"] & {
       role: string;
-      password: string | undefined;
     }
   ) => {
     setFormData({
       nom: user.nom ?? "",
       email: user.email ?? "",
       telephone: user.telephone?.toString() ?? "",
-      password: user.password ?? "",
       role: user.role ?? "",
     });
     setIsEditOpen(true);
@@ -61,11 +83,12 @@ export default function TeamActions({
     e.preventDefault();
 
     const { data: utilisateurs, error: userError } = await supabase
-      .from("utilisateur")
+      .from("profile")
       .update({
         nom: formData.nom,
         email: formData.email,
         telephone: Number(formData.telephone),
+        email_verified: userFetched.email_verified
       })
       .eq("id", user.id)
       .select()
@@ -75,8 +98,8 @@ export default function TeamActions({
 
     // Update role if changed
     if (formData.role === "admin") {
-      // Remove from security if exists
-      await supabase.from("securite").delete().eq("utilisateur_id", user.id);
+      // Remove from reception if exists
+      await supabase.from("reception").delete().eq("utilisateur_id", user.id);
 
       // Add to admin if not exists
       const { data: existingAdmin } = await supabase
@@ -91,35 +114,33 @@ export default function TeamActions({
           .insert([
             {
               utilisateur_id: user.id,
-              password: formData.password || user.password!,
             },
           ]);
         if (adminError) throw adminError;
       }
-    } else if (formData.role === "security") {
+    } else if (formData.role === "reception") {
       // Remove from admin if exists
       await supabase
         .from("administration")
         .delete()
         .eq("utilisateur_id", user.id);
 
-      // Add to security if not exists
-      const { data: existingSecurity } = await supabase
-        .from("securite")
+      // Add to Reception if not exists
+      const { data: existingReception } = await supabase
+        .from("reception")
         .select()
         .eq("utilisateur_id", user.id)
         .single();
 
-      if (!existingSecurity) {
-        const { error: securityError } = await supabase
-          .from("securite")
+      if (!existingReception) {
+        const { error: ReceptionError } = await supabase
+          .from("reception")
           .insert([
             {
               utilisateur_id: user.id,
-              password: formData.password || user.password!,
             },
           ]);
-        if (securityError) throw securityError;
+        if (ReceptionError) throw ReceptionError;
       }
     }
 
@@ -128,7 +149,7 @@ export default function TeamActions({
 
   async function deleteUser(userId: string) {
     const { error } = await supabase
-      .from("utilisateur")
+      .from("profile")
       .delete()
       .eq("id", userId);
     if (error) throw error;
@@ -169,19 +190,6 @@ export default function TeamActions({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="edit-password">
-                Mot de passe (laisser vide pour conserver l'actuel)
-              </Label>
-              <Input
-                id="edit-password"
-                type="password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="edit-telephone">Téléphone</Label>
               <Input
                 id="edit-telephone"
@@ -205,7 +213,7 @@ export default function TeamActions({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="security">Sécurité</SelectItem>
+                  <SelectItem value="reception">Reception</SelectItem>
                 </SelectContent>
               </Select>
             </div>

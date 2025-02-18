@@ -27,7 +27,6 @@ const links = [
     href: "/dashboard/results",
     icon: ChartBarSquareIcon,
   },
-  { name: "Gestion Des Utilisateurs", href: "/dashboard/users", icon: UserGroupIcon },
   {
     name: "Gestion de Contenu",
     href: "/dashboard/content",
@@ -38,6 +37,7 @@ const links = [
     href: "/dashboard/stock",
     icon: InboxStackIcon,
   },
+  { name: "Gestion Des Utilisateurs", href: "/dashboard/users", icon: UserGroupIcon },
   {
     name: "Paramètre du Site",
     href: "/dashboard/settings",

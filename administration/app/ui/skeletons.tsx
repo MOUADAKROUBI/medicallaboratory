@@ -1,9 +1,7 @@
 import clcx from "clsx";
 import {
-  Table,
   TableBody,
   TableCell,
-  TableHead,
   TableRow,
 } from "@/app/ui/table";
 
@@ -135,34 +133,30 @@ export function TableRowSkeleton() {
 
 export function TableSkeleton() {
   return (
-    <div className="rounded-lg border bg-white">
-      <Table>
-        <TableHead>
-          {[...Array(5).keys()].map((index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <Skeleton className="h-4 w-[150px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[120px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[80px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[100px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[100px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[100px]" />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableHead>
-      </Table>
-    </div>
+    <TableBody>
+      {[...Array(5).keys()].map((index) => (
+        <TableRow key={index}>
+          <TableCell>
+            <Skeleton className="h-4 w-[150px]" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-[120px]" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-[80px]" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-[100px]" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-[100px]" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-[100px]" />
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
   );
 }
 
