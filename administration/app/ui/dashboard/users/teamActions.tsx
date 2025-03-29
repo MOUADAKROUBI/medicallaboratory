@@ -42,7 +42,7 @@ export default function TeamActions({
     email: "",
     id: "",
     nom: "",
-    telephone: NaN,
+    telephone: "",
     email_verified: false
   });
   
@@ -57,7 +57,7 @@ export default function TeamActions({
         email: data.user.email ?? null,
         id: data.user.id,
         nom: data.user.user_metadata?.nom ?? "",
-        telephone: Number(data.user.phone),
+        telephone: data.user.phone,
         email_verified: data.user.user_metadata?.email_verified ?? false,
       })
     }
@@ -87,7 +87,7 @@ export default function TeamActions({
       .update({
         nom: formData.nom,
         email: formData.email,
-        telephone: Number(formData.telephone),
+        telephone: formData.telephone,
         email_verified: userFetched.email_verified
       })
       .eq("id", user.id)
