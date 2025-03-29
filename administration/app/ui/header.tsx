@@ -1,6 +1,6 @@
 import React from "react";
-import { lusitana } from "@/app/ui/fonts";
-import { formatDateToLocal } from "../../app/lib/utils";
+import { formatDateToLocal } from "../../app/lib/utils.ts";
+import { lusitana } from "./fonts.ts";
 
 export default function Header({ titleSection }: { readonly titleSection: string }) {
   const currentDate = formatDateToLocal(new Date().toISOString());

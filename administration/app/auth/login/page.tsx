@@ -1,5 +1,5 @@
-import AcmeLogo from '@/app/ui/logo';
-import LoginForm from '@/app/ui/login-form';
+import React from 'react';
+import LoginForm from '../../ui/login-form.tsx';
  
 export default function LoginPage() {
   return (

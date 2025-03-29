@@ -12,7 +12,7 @@ export default async function TeamTable() {
     error: authError,
   } = await supabase.auth.getUser();
 
-  if (authError) return authError;
+  if (authError) throw authError;
 
   const { data: utilisateurs, error } = await supabase
     .from("profile")
