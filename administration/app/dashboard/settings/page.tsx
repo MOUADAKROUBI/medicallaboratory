@@ -9,7 +9,7 @@ import TimeZoneSetting from '@/app/ui/dashboard/setting/timeZoneSetting';
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: 'Paramètre du Site'
 }
 
