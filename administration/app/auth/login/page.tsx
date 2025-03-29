@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from '../../ui/login-form';
+import AcmeLogo from '@/app/ui/logo';
  
 export default function LoginPage() {
   return (
