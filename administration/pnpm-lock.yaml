@@ -62,6 +62,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      deno:
+        specifier: ^2.2.11
+        version: 2.2.11
       next:
         specifier: 15.0.0-canary.56
         version: 15.0.0-canary.56(react-dom@19.0.0-rc-f38c22b244-20240704(react@19.0.0-rc-f38c22b244-20240704))(react@19.0.0-rc-f38c22b244-20240704)
@@ -114,6 +117,36 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@deno/darwin-arm64@2.2.11':
+    resolution: {integrity: sha512-UTj5l4A+bhuRGeFtwjgCp2PLCfm7EsdeOfuGWrWwL/Ji+2XO/8jNYgHCunX9dG8yelVF3ebTI4igN8+dUV2Jqg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@deno/darwin-x64@2.2.11':
+    resolution: {integrity: sha512-FfPR8wTLJihlgYv1bF0EML2Dk/sZtF1E8e1RaB/X0yNHmm1khQNjTjFaD59+yt2CU4tCHDBN0oNgxdYehhQlBQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@deno/linux-arm64-glibc@2.2.11':
+    resolution: {integrity: sha512-+BM7FQa3SGd7GwPBG2rTBvAL8A4WBpUXuTRH8vgnP8bQFxWdu1rtiHuZzdu/E2l4CTh+MVzqFiZnEhCUnQ1+cg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@deno/linux-x64-glibc@2.2.11':
+    resolution: {integrity: sha512-/+FQPJIJFF86pocR4Fz8iqpI4w+r8TqjyyNpX7I8FWyOw0xBI5RfZAWEY1lt7faKGJOsz2lXk06BH2s5trirXQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@deno/win32-arm64@2.2.11':
+    resolution: {integrity: sha512-iN2yq9mjOZPHzOE97cjoxUQM3SBWEIasfelPGKQrcauKjk9qY41m3Ut48ueQGbMmgxQjA7og/d6bfwcd+79/kA==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@deno/win32-x64@2.2.11':
+    resolution: {integrity: sha512-JG2W/IxKDGruSnT4bvxIxD5jZwZiQpRaGYiwfPo73xyvndji2aXYWs7n5HU3EjsouQTk+A3IsQQ2mb5+qTwJRw==}
+    cpu: [x64]
+    os: [win32]
 
   '@emnapi/runtime@1.2.0':
     resolution: {integrity: sha512-bV21/9LQmcQeCPEg3BDFtvwL6cwiTMksYNWQQ4KOxCZikEGalWtenoZ0wCiukJINlGCIi2KXx01g4FoH/LxpzQ==}
@@ -1240,6 +1273,10 @@ packages:
 
   delegates@1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
+
+  deno@2.2.11:
+    resolution: {integrity: sha512-8zlSJDGBXVLcHzWXxPLYsWZvUOiazbU4LZRlA/JrUpSkf4tac0NryVyOPMM00+pbAzySwDVQOKDM3twjPPFpSg==}
+    hasBin: true
 
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
@@ -2630,6 +2667,24 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
+  '@deno/darwin-arm64@2.2.11':
+    optional: true
+
+  '@deno/darwin-x64@2.2.11':
+    optional: true
+
+  '@deno/linux-arm64-glibc@2.2.11':
+    optional: true
+
+  '@deno/linux-x64-glibc@2.2.11':
+    optional: true
+
+  '@deno/win32-arm64@2.2.11':
+    optional: true
+
+  '@deno/win32-x64@2.2.11':
+    optional: true
+
   '@emnapi/runtime@1.2.0':
     dependencies:
       tslib: 2.6.3
@@ -3783,6 +3838,15 @@ snapshots:
 
   delegates@1.0.0: {}
 
+  deno@2.2.11:
+    optionalDependencies:
+      '@deno/darwin-arm64': 2.2.11
+      '@deno/darwin-x64': 2.2.11
+      '@deno/linux-arm64-glibc': 2.2.11
+      '@deno/linux-x64-glibc': 2.2.11
+      '@deno/win32-arm64': 2.2.11
+      '@deno/win32-x64': 2.2.11
+
   detect-libc@2.0.3: {}
 
   detect-node-es@1.1.0: {}
@@ -3934,7 +3998,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.9.0(eslint@8.57.0)
       eslint-plugin-react: 7.35.0(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.0)
@@ -3958,7 +4022,7 @@ snapshots:
       enhanced-resolve: 5.17.1
       eslint: 8.57.0
       eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.6
       is-core-module: 2.13.1
@@ -3980,7 +4044,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5
