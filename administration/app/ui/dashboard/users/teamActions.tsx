@@ -57,7 +57,7 @@ export default function TeamActions({
         email: data.user.email ?? null,
         id: data.user.id,
         nom: data.user.user_metadata?.nom ?? "",
-        telephone: data.user.phone,
+        telephone: data.user.phone ?? null,
         email_verified: data.user.user_metadata?.email_verified ?? false,
       })
     }

@@ -4,8 +4,15 @@ import RecentActivity from "@/app/ui/dashboard/recentActivity";
 import { Suspense } from "react";
 import { CardSkeleton, DataChartSkeleton, RecentActivityListSkeleton } from "@/app/ui/skeletons";
 import Header from "@/app/ui/header";
+import { fetchMonthlyAppointments } from "@/app/lib/data";
 
-export default function Page() {
+export default async function Page() {
+  const monthlyAppointments = await fetchMonthlyAppointments();
+
+  if (!monthlyAppointments || monthlyAppointments.length === 0) {
+    return <p className="mt-4 text-gray-400">No data available.</p>;
+  }
+
   return (
     <main>
       <Header titleSection="Tableau de bord" />
